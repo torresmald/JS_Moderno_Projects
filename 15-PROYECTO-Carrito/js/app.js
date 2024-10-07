@@ -8,6 +8,7 @@ let cartCourses = []
 const loadListeners = () => {
     courses.addEventListener('click', addCourse)
     cleanCartButton.addEventListener('click', cleanCart)
+    paintCart()
 }
 
 const addCourse = event => {
@@ -38,6 +39,9 @@ const extractInfoCourse = curso => {
 
 const paintCart = () => {
     cleanCartDom()
+    const courses = readLocalSotrage()    
+    if(courses)
+    cartCourses = courses
     cartCourses.forEach(course => {
         const { image, title, price, quantity, id } = course
         const row = document.createElement('tr')
@@ -60,18 +64,30 @@ const cleanCartDom = () => {
 
 const removeCourse = courseId => {
     cartCourses = cartCourses.filter(course => course.id != courseId)
+    saveLocalStorage()
     paintCart()
 }
 
 const updateCourseQuantity = (course) => {
     const index = cartCourses.findIndex(c => c.id === course.id)
     cartCourses[index].quantity++
+
 }
 
 const addCourseToCart = course => {
     cartCourses.push(course)
+    saveLocalStorage()
 }
 
 const existCourse = course => cartCourses.length > 0 ? cartCourses.find(c => c.id === course.id) : false;
+
+const saveLocalStorage = () => {
+    localStorage.setItem('cart', JSON.stringify(cartCourses))
+}
+
+const readLocalSotrage = () => {
+    const courses = JSON.parse(localStorage.getItem('cart'))
+    return courses
+}
 
 loadListeners()
