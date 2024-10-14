@@ -1,0 +1,8 @@
+.modal-error{
+    background-color: red;
+    text-align: center;
+    color: white;
+    padding: 10px 20px;
+    margin: auto;
+    text-transform: uppercase;
+}
